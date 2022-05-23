@@ -1257,3 +1257,6 @@ game.onUpdateInterval(7000, function () {
         reciclada.setPosition(160, 60)
     }
 })
+forever(function () {
+	
+})
