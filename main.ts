@@ -158,41 +158,68 @@ Mano.setPosition(25, 95)
 game.onUpdate(function () {
     if (moviendo == 1) {
         agarrado.setPosition(Mano.x, Mano.y)
-        if (organico.overlapsWith(boteOrganica)) {
-            agarrado.destroy(effects.confetti, 500)
+        if (Mano.overlapsWith(boteOrganica)) {
             moviendo = 0
-            info.changeScoreBy(-1)
-            info.changeLifeBy(-1)
-        } else if (inorganico.overlapsWith(boteOrganica)) {
-            info.changeLifeBy(-1)
-            inorganico.destroy(effects.fire, 500)
-        } else if (reciclada.overlapsWith(boteOrganica)) {
-            info.changeLifeBy(-1)
-            reciclada.destroy(effects.fire, 500)
-        } else if (inorganico.overlapsWith(boteInorganica)) {
             info.changeScoreBy(1)
-            inorganico.destroy(effects.confetti, 500)
-        } else if (organico.overlapsWith(boteInorganica)) {
-            info.changeLifeBy(-1)
-            organico.destroy(effects.fire, 500)
-        } else if (reciclada.overlapsWith(boteInorganica)) {
-            info.changeLifeBy(-1)
-            reciclada.destroy(effects.fire, 500)
-        } else if (reciclada.overlapsWith(boteReciclado)) {
+        } else {
+            if (organico.overlapsWith(boteOrganica)) {
+                agarrado.destroy(effects.fire, 500)
+                moviendo = 0
+                info.changeScoreBy(0)
+                info.changeLifeBy(-1)
+            } else if (inorganico.overlapsWith(boteOrganica)) {
+                agarrado.destroy(effects.fire, 500)
+                moviendo = 0
+                info.changeScoreBy(0)
+                info.changeLifeBy(-1)
+            } else if (reciclada.overlapsWith(boteOrganica)) {
+                agarrado.destroy(effects.fire, 500)
+                moviendo = 0
+                info.changeScoreBy(0)
+                info.changeLifeBy(-1)
+            }
+        }
+        if (Mano.overlapsWith(boteInorganica)) {
+            moviendo = 0
             info.changeScoreBy(1)
-            reciclada.destroy(effects.confetti, 500)
-        } else if (organico.overlapsWith(boteReciclado)) {
-            info.changeLifeBy(-1)
-            reciclada.destroy(effects.fire, 500)
-        } else if (inorganico.overlapsWith(boteReciclado)) {
-            info.changeLifeBy(-1)
-            inorganico.destroy(effects.fire, 500)
-        } else if (false) {
-        	
-        } else if (false) {
-        	
-        } else if (false) {
-        	
+        } else {
+            if (organico.overlapsWith(boteInorganica)) {
+                agarrado.destroy()
+                moviendo = 0
+                info.changeScoreBy(0)
+                info.changeLifeBy(-1)
+            } else if (inorganico.overlapsWith(boteInorganica)) {
+                agarrado.destroy()
+                moviendo = 0
+                info.changeScoreBy(0)
+                info.changeLifeBy(-1)
+            } else if (reciclada.overlapsWith(boteInorganica)) {
+                agarrado.destroy()
+                moviendo = 0
+                info.changeScoreBy(0)
+                info.changeLifeBy(-1)
+            }
+        }
+        if (Mano.overlapsWith(boteReciclado)) {
+            moviendo = 0
+            info.changeScoreBy(1)
+        } else {
+            if (organico.overlapsWith(boteReciclado)) {
+                agarrado.destroy()
+                moviendo = 0
+                info.changeScoreBy(0)
+                info.changeLifeBy(-1)
+            } else if (inorganico.overlapsWith(boteReciclado)) {
+                agarrado.destroy()
+                moviendo = 0
+                info.changeScoreBy(0)
+                info.changeLifeBy(-1)
+            } else if (reciclada.overlapsWith(boteReciclado)) {
+                agarrado.destroy()
+                moviendo = 0
+                info.changeScoreBy(0)
+                info.changeLifeBy(-1)
+            }
         }
     }
 })
