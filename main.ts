@@ -1258,5 +1258,6 @@ game.onUpdateInterval(7000, function () {
     }
 })
 forever(function () {
-	
+    music.playMelody("G B A G C5 B A B ", music.beat(BeatFraction.Triplet))
+    music.changeTempoBy(-1)
 })
