@@ -5,24 +5,72 @@ namespace SpriteKind {
     export const bote = SpriteKind.create()
     export const basura = SpriteKind.create()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.basura, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.reciclado, SpriteKind.bote, function (sprite, otherSprite) {
+    if (otherSprite == boteReciclado) {
+        agarrado.destroy(effects.confetti, 500)
+        moviendo = 0
+        info.changeScoreBy(1)
+    } else {
+        agarrado.destroy(effects.fire, 500)
+        moviendo = 0
+        info.changeLifeBy(-1)
+    }
+})
+sprites.onOverlap(SpriteKind.organica, SpriteKind.bote, function (sprite, otherSprite) {
+    if (otherSprite == boteOrganica) {
+        agarrado.destroy(effects.confetti, 500)
+        moviendo = 0
+        info.changeScoreBy(1)
+    } else {
+        agarrado.destroy(effects.fire, 500)
+        moviendo = 0
+        info.changeLifeBy(-1)
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.inorganica, function (sprite, otherSprite) {
     if (moviendo != 1) {
         moviendo = 1
         agarrado = otherSprite
     }
 })
-let objetos = 0
+sprites.onOverlap(SpriteKind.Player, SpriteKind.reciclado, function (sprite, otherSprite) {
+    if (moviendo != 1) {
+        moviendo = 1
+        agarrado = otherSprite
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.organica, function (sprite, otherSprite) {
+    if (moviendo != 1) {
+        moviendo = 1
+        agarrado = otherSprite
+    }
+})
+sprites.onOverlap(SpriteKind.inorganica, SpriteKind.bote, function (sprite, otherSprite) {
+    if (otherSprite == boteInorganica) {
+        agarrado.destroy(effects.confetti, 500)
+        moviendo = 0
+        info.changeScoreBy(1)
+    } else {
+        agarrado.destroy(effects.fire, 500)
+        moviendo = 0
+        info.changeLifeBy(-1)
+    }
+})
 let reciclada: Sprite = null
 let inorganico: Sprite = null
 let organico: Sprite = null
-let agarrado: Sprite = null
+let objetos = 0
 let moviendo = 0
+let agarrado: Sprite = null
+let boteReciclado: Sprite = null
+let boteInorganica: Sprite = null
+let boteOrganica: Sprite = null
 scene.setBackgroundColor(1)
 game.showLongText("Asigna los diferentes objetos a sus respectivos contenedores", DialogLayout.Full)
-info.setLife(3)
+info.setLife(5)
 info.setScore(0)
 let speed = -20
-let boteOrganica = sprites.create(img`
+boteOrganica = sprites.create(img`
     77777777777777777777777777777777
     77777777777777777777777777777777
     77777777777777777777777777777777
@@ -56,7 +104,7 @@ let boteOrganica = sprites.create(img`
     77777777777777777777777777777777
     77777777777777777777777777777777
     `, SpriteKind.bote)
-let boteInorganica = sprites.create(img`
+boteInorganica = sprites.create(img`
     99999999999999999999999999999999
     99999999999999999999999999999999
     99999999999999999999999999999999
@@ -90,7 +138,7 @@ let boteInorganica = sprites.create(img`
     99999999999999999999999999999999
     99999999999999999999999999999999
     `, SpriteKind.bote)
-let boteReciclado = sprites.create(img`
+boteReciclado = sprites.create(img`
     22222222222222222222222222222222
     22222222222222222222222222222222
     22222222222222222222222222222222
@@ -158,69 +206,6 @@ Mano.setPosition(25, 95)
 game.onUpdate(function () {
     if (moviendo == 1) {
         agarrado.setPosition(Mano.x, Mano.y)
-        if (Mano.overlapsWith(boteOrganica)) {
-            moviendo = 0
-            info.changeScoreBy(1)
-        } else {
-            if (organico.overlapsWith(boteOrganica)) {
-                agarrado.destroy(effects.fire, 500)
-                moviendo = 0
-                info.changeScoreBy(0)
-                info.changeLifeBy(-1)
-            } else if (inorganico.overlapsWith(boteOrganica)) {
-                agarrado.destroy(effects.fire, 500)
-                moviendo = 0
-                info.changeScoreBy(0)
-                info.changeLifeBy(-1)
-            } else if (reciclada.overlapsWith(boteOrganica)) {
-                agarrado.destroy(effects.fire, 500)
-                moviendo = 0
-                info.changeScoreBy(0)
-                info.changeLifeBy(-1)
-            }
-        }
-        if (Mano.overlapsWith(boteInorganica)) {
-            moviendo = 0
-            info.changeScoreBy(1)
-        } else {
-            if (organico.overlapsWith(boteInorganica)) {
-                agarrado.destroy()
-                moviendo = 0
-                info.changeScoreBy(0)
-                info.changeLifeBy(-1)
-            } else if (inorganico.overlapsWith(boteInorganica)) {
-                agarrado.destroy()
-                moviendo = 0
-                info.changeScoreBy(0)
-                info.changeLifeBy(-1)
-            } else if (reciclada.overlapsWith(boteInorganica)) {
-                agarrado.destroy()
-                moviendo = 0
-                info.changeScoreBy(0)
-                info.changeLifeBy(-1)
-            }
-        }
-        if (Mano.overlapsWith(boteReciclado)) {
-            moviendo = 0
-            info.changeScoreBy(1)
-        } else {
-            if (organico.overlapsWith(boteReciclado)) {
-                agarrado.destroy()
-                moviendo = 0
-                info.changeScoreBy(0)
-                info.changeLifeBy(-1)
-            } else if (inorganico.overlapsWith(boteReciclado)) {
-                agarrado.destroy()
-                moviendo = 0
-                info.changeScoreBy(0)
-                info.changeLifeBy(-1)
-            } else if (reciclada.overlapsWith(boteReciclado)) {
-                agarrado.destroy()
-                moviendo = 0
-                info.changeScoreBy(0)
-                info.changeLifeBy(-1)
-            }
-        }
     }
 })
 // game.onUpdate(function () {
@@ -725,7 +710,7 @@ game.onUpdate(function () {
 // game.showLongText("Ronda " + ronda, DialogLayout.Bottom)
 // }
 // })
-game.onUpdateInterval(7000, function () {
+game.onUpdateInterval(5000, function () {
     objetos = randint(1, 15)
     if (objetos == 1) {
         organico = sprites.create(img`
@@ -761,7 +746,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.organica)
         organico.setVelocity(speed, 0)
         organico.setPosition(160, 60)
     } else if (objetos == 2) {
@@ -798,7 +783,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.organica)
         organico.setVelocity(speed, 0)
         organico.setPosition(160, 60)
     } else if (objetos == 3) {
@@ -835,7 +820,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.organica)
         organico.setVelocity(speed, 0)
         organico.setPosition(160, 60)
     } else if (objetos == 4) {
@@ -872,7 +857,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.organica)
         organico.setVelocity(speed, 0)
         organico.setPosition(160, 60)
     } else if (objetos == 5) {
@@ -909,7 +894,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.organica)
         organico.setVelocity(speed, 0)
         organico.setPosition(160, 60)
     } else if (objetos == 6) {
@@ -946,7 +931,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.inorganica)
         inorganico.setVelocity(speed, 0)
         inorganico.setPosition(160, 60)
     } else if (objetos == 7) {
@@ -983,7 +968,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.inorganica)
         inorganico.setVelocity(speed, 0)
         inorganico.setPosition(160, 60)
     } else if (objetos == 8) {
@@ -1020,7 +1005,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.inorganica)
         inorganico.setVelocity(speed, 0)
         inorganico.setPosition(160, 60)
     } else if (objetos == 9) {
@@ -1057,7 +1042,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.inorganica)
         inorganico.setVelocity(speed, 0)
         inorganico.setPosition(160, 60)
     } else if (objetos == 10) {
@@ -1094,7 +1079,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.inorganica)
         inorganico.setVelocity(speed, 0)
         inorganico.setPosition(160, 60)
     } else if (objetos == 11) {
@@ -1131,7 +1116,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.reciclado)
         reciclada.setVelocity(speed, 0)
         reciclada.setPosition(160, 60)
     } else if (objetos == 12) {
@@ -1168,7 +1153,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.reciclado)
         reciclada.setVelocity(speed, 0)
         reciclada.setPosition(160, 60)
     } else if (objetos == 13) {
@@ -1205,7 +1190,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.reciclado)
         reciclada.setVelocity(speed, 0)
         reciclada.setPosition(160, 60)
     } else if (objetos == 14) {
@@ -1242,7 +1227,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.reciclado)
         reciclada.setVelocity(speed, 0)
         reciclada.setPosition(160, 60)
     } else if (objetos == 15) {
@@ -1279,7 +1264,7 @@ game.onUpdateInterval(7000, function () {
             ................................
             ................................
             ................................
-            `, SpriteKind.basura)
+            `, SpriteKind.reciclado)
         reciclada.setVelocity(speed, 0)
         reciclada.setPosition(160, 60)
     }
