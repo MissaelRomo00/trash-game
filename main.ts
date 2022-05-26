@@ -16,6 +16,10 @@ sprites.onOverlap(SpriteKind.reciclado, SpriteKind.bote, function (sprite, other
         info.changeLifeBy(-1)
     }
 })
+scene.onHitWall(SpriteKind.reciclado, function (sprite, location) {
+    reciclada.destroy(effects.warmRadial, 100)
+    info.changeLifeBy(-1)
+})
 sprites.onOverlap(SpriteKind.organica, SpriteKind.bote, function (sprite, otherSprite) {
     if (otherSprite == boteOrganica) {
         agarrado.destroy(effects.confetti, 500)
@@ -27,11 +31,19 @@ sprites.onOverlap(SpriteKind.organica, SpriteKind.bote, function (sprite, otherS
         info.changeLifeBy(-1)
     }
 })
+scene.onHitWall(SpriteKind.inorganica, function (sprite, location) {
+    inorganico.destroy(effects.warmRadial, 100)
+    info.changeLifeBy(-1)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.inorganica, function (sprite, otherSprite) {
     if (moviendo != 1) {
         moviendo = 1
         agarrado = otherSprite
     }
+})
+scene.onHitWall(SpriteKind.organica, function (sprite, location) {
+    organico.destroy(effects.warmRadial, 100)
+    info.changeLifeBy(-1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.reciclado, function (sprite, otherSprite) {
     if (moviendo != 1) {
@@ -56,10 +68,10 @@ sprites.onOverlap(SpriteKind.inorganica, SpriteKind.bote, function (sprite, othe
         info.changeLifeBy(-1)
     }
 })
-let reciclada: Sprite = null
-let inorganico: Sprite = null
-let organico: Sprite = null
 let objetos = 0
+let organico: Sprite = null
+let inorganico: Sprite = null
+let reciclada: Sprite = null
 let moviendo = 0
 let agarrado: Sprite = null
 let boteReciclado: Sprite = null
@@ -206,6 +218,26 @@ Mano.setPosition(25, 95)
 game.onUpdate(function () {
     if (moviendo == 1) {
         agarrado.setPosition(Mano.x, Mano.y)
+    }
+})
+game.onUpdate(function () {
+    if (info.score() == 10) {
+        info.changeLifeBy(5)
+        speed = -25
+    } else if (info.score() == 20) {
+        speed = -30
+    } else if (info.score() == 30) {
+        speed = -35
+    } else if (info.score() == 40) {
+        speed = -40
+    } else if (info.score() == 50) {
+        speed = -50
+    } else if (info.score() == 75) {
+        speed = -100
+    } else if (info.score() == 100) {
+        game.over(true)
+    } else {
+    	
     }
 })
 // game.onUpdate(function () {
@@ -710,7 +742,7 @@ game.onUpdate(function () {
 // game.showLongText("Ronda " + ronda, DialogLayout.Bottom)
 // }
 // })
-game.onUpdateInterval(5000, function () {
+game.onUpdateInterval(1500, function () {
     objetos = randint(1, 15)
     if (objetos == 1) {
         organico = sprites.create(img`
