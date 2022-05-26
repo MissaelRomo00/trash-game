@@ -236,8 +236,6 @@ game.onUpdate(function () {
         speed = -100
     } else if (info.score() == 100) {
         game.over(true)
-    } else {
-    	
     }
 })
 // game.onUpdate(function () {
