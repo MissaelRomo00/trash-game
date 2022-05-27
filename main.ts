@@ -16,10 +16,6 @@ sprites.onOverlap(SpriteKind.reciclado, SpriteKind.bote, function (sprite, other
         info.changeLifeBy(-1)
     }
 })
-scene.onHitWall(SpriteKind.reciclado, function (sprite, location) {
-    reciclada.destroy(effects.warmRadial, 100)
-    info.changeLifeBy(-1)
-})
 sprites.onOverlap(SpriteKind.organica, SpriteKind.bote, function (sprite, otherSprite) {
     if (otherSprite == boteOrganica) {
         agarrado.destroy(effects.confetti, 500)
@@ -31,19 +27,11 @@ sprites.onOverlap(SpriteKind.organica, SpriteKind.bote, function (sprite, otherS
         info.changeLifeBy(-1)
     }
 })
-scene.onHitWall(SpriteKind.inorganica, function (sprite, location) {
-    inorganico.destroy(effects.warmRadial, 100)
-    info.changeLifeBy(-1)
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.inorganica, function (sprite, otherSprite) {
     if (moviendo != 1) {
         moviendo = 1
         agarrado = otherSprite
     }
-})
-scene.onHitWall(SpriteKind.organica, function (sprite, location) {
-    organico.destroy(effects.warmRadial, 100)
-    info.changeLifeBy(-1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.reciclado, function (sprite, otherSprite) {
     if (moviendo != 1) {
@@ -68,10 +56,10 @@ sprites.onOverlap(SpriteKind.inorganica, SpriteKind.bote, function (sprite, othe
         info.changeLifeBy(-1)
     }
 })
-let objetos = 0
-let organico: Sprite = null
-let inorganico: Sprite = null
 let reciclada: Sprite = null
+let inorganico: Sprite = null
+let organico: Sprite = null
+let objetos = 0
 let moviendo = 0
 let agarrado: Sprite = null
 let boteReciclado: Sprite = null
@@ -79,6 +67,9 @@ let boteInorganica: Sprite = null
 let boteOrganica: Sprite = null
 scene.setBackgroundColor(1)
 game.showLongText("Asigna los diferentes objetos a sus respectivos contenedores", DialogLayout.Full)
+game.showLongText("Orgánico: Manzana, cascara de plátano, flores, cascara de huevo y hojas de árbol.", DialogLayout.Full)
+game.showLongText("Inorgánico: Bolsa de papitas, tenedor desechable, cepillo de dientes, hoja de papel y vaso de plástico.", DialogLayout.Full)
+game.showLongText("Reciclado: Botella de vidrio, lata de aluminio, botella de plástico, caja de cartón y tabla de madera", DialogLayout.Full)
 info.setLife(5)
 info.setScore(0)
 let speed = -20
@@ -214,17 +205,22 @@ game.onUpdate(function () {
 })
 game.onUpdate(function () {
     if (info.score() == 10) {
-        info.changeLifeBy(5)
         speed = -25
+        info.setLife(5)
     } else if (info.score() == 20) {
         speed = -30
+        info.setLife(5)
     } else if (info.score() == 30) {
         speed = -35
+        info.setLife(5)
     } else if (info.score() == 40) {
+        info.setLife(5)
         speed = -40
     } else if (info.score() == 50) {
         speed = -50
+        info.setLife(5)
     } else if (info.score() == 75) {
+        info.setLife(5)
         speed = -100
     } else if (info.score() == 100) {
         game.over(true)
@@ -732,7 +728,7 @@ game.onUpdate(function () {
 // game.showLongText("Ronda " + ronda, DialogLayout.Bottom)
 // }
 // })
-game.onUpdateInterval(1500, function () {
+game.onUpdateInterval(2000, function () {
     objetos = randint(1, 15)
     if (objetos == 1) {
         organico = sprites.create(img`
